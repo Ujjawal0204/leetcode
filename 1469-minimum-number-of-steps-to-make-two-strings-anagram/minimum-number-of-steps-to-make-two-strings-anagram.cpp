@@ -1,5 +1,5 @@
 #include <iostream>
-#include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -11,21 +11,21 @@ public:
             return -1; // Invalid input
         }
 
-        unordered_map<char, int> frequency;
+        vector<int> frequency(26, 0); // Assuming only lowercase English letters
 
-        // Count the frequency of each character in string s
+        // Count the frequency of each character in string s and subtract from the frequency of characters in string t
         for (char ch : s) {
-            frequency[ch]++;
+            frequency[ch - 'a']++;
         }
 
         int steps = 0;
 
         // Iterate through each character in string t and update the frequency
         for (char ch : t) {
-            if (frequency.find(ch) != frequency.end() && frequency[ch] > 0) {
-                frequency[ch]--;
-            } else {
-                // If the character is not present in s or its frequency is exhausted, it needs to be replaced
+            frequency[ch - 'a']--;
+
+            // If the character is not present in s or its frequency is exhausted, it needs to be replaced
+            if (frequency[ch - 'a'] < 0) {
                 steps++;
             }
         }
