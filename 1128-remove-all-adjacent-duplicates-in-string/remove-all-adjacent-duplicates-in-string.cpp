@@ -1,18 +1,22 @@
 class Solution {
 public:
     string removeDuplicates(string s) {
-        int i=0, j=1;
-        while ((i<j) && (j<s.size())){
-            if(s[i]==s[j]){
-                s.erase(i,2);
-                i=0;
-                j=1;
-            }
-            else{
-                i++;
-                j++;
+        stack<char> stk;
+
+        for (char c : s) {
+            if (!stk.empty() && stk.top() == c) {
+                stk.pop(); // Remove the adjacent duplicate
+            } else {
+                stk.push(c);
             }
         }
-        return s;
+
+        string result;
+        while (!stk.empty()) {
+            result = stk.top() + result;
+            stk.pop();
+        }
+
+        return result;
     }
 };
